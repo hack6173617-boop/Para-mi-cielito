@@ -158,24 +158,36 @@ setInterval(spawn,550);for(let i=0;i<6;i++)setTimeout(spawn,i*250);
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.15});
 document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i<8?i*.12:0)+'s';io.observe(el)});
 
-// canción: busca el archivo en estas carpetas / nombres / formatos
-const ORIGENES=[[BASE,'musica'],['','musica'],['','Mi wey'],['','']];
-const NOMBRES=['Rex Orange County - Best Friend (Official Audio)','Rex Orange County - Best Friend','Best Friend','best-friend'];
-const EXTS=['mp3','m4a','wav','ogg','MP3','webm','opus','aac'];
-const cand=[];ORIGENES.forEach(([b,c])=>NOMBRES.forEach(n=>EXTS.forEach(e=>cand.push(b+encodeURI((c?c+'/':'')+n+'.'+e)))));
-let ci=0,want=false;
+// canción: se busca y se descarga en segundo plano mientras ella ve la pantalla de inicio,
+// así al tocar la carta suena al instante
+const NOMBRES=['Rex Orange County - Best Friend (Official Audio)','Best Friend'];
+const EXTS=['mp3','MP3','m4a','webm','opus'];
+const GRUPOS=[[BASE,'musica'],['',''],['','musica'],['','Mi wey']];
 const testing=['','localhost','127.0.0.1'].includes(location.hostname);
-function nextSrc(){
-  if(ci>=cand.length){
-    $('dur').textContent='--:--';
-    if(testing)$('msg').textContent='No encuentro la canción. Ponla en la carpeta "musica" con este nombre: Rex Orange County - Best Friend (Official Audio).mp3';
-    return;
+let want=false,started=false,fb=false,ci=0;
+const grupoUrls=(b,c)=>{const u=[];NOMBRES.forEach(n=>EXTS.forEach(e=>u.push(b+encodeURI((c?c+'/':'')+n+'.'+e))));return u};
+const cand=GRUPOS.flatMap(([b,c])=>grupoUrls(b,c));
+async function existe(u){try{const r=await fetch(u,{method:'HEAD'});return r.ok&&!/text\/html/.test(r.headers.get('content-type')||'')}catch(e){return false}}
+async function buscar(){
+  for(const [b,c] of GRUPOS){
+    const urls=grupoUrls(b,c),ok=await Promise.all(urls.map(existe)),i=ok.indexOf(true);
+    if(i>-1)return urls[i];
   }
+  return null;
+}
+function nextSrc(){
+  if(ci>=cand.length){if(testing)$('msg').textContent='No encuentro la canción. Súbela a Supabase (carpeta musica) o ponla junto al index.html con este nombre: Rex Orange County - Best Friend (Official Audio).mp3';return}
   au.src=cand[ci++];au.load();
 }
-au.addEventListener('error',nextSrc);
+async function cargar(){
+  const url=await buscar();
+  if(!url){fb=true;nextSrc();return}          // plan B: probar una por una
+  au.src=url;au.load();
+  try{const blob=await (await fetch(url)).blob();if(!started){au.src=URL.createObjectURL(blob);au.load()}}catch(e){}
+}
+au.addEventListener('error',()=>{if(fb)nextSrc()});
 au.addEventListener('canplay',()=>{if(want&&au.paused)play()});
-nextSrc();
+cargar();
 
 // música
 function ui(){pp.textContent=au.paused?'▶':'⏸'}
@@ -188,7 +200,7 @@ $('prev').onclick=$('next').onclick=()=>{au.currentTime=0;play()};
 $('trk').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();au.currentTime=(e.clientX-r.left)/r.width*au.duration};
 
 // intro: el toque inicial desbloquea el audio en el navegador
-$('open').onclick=()=>{want=true;play();$('intro').classList.add('off')};
+$('open').onclick=()=>{want=true;started=true;play();$('intro').classList.add('off')};
 
 // fotos: foto1 ... foto9 en la carpeta principal, en "Mi wey" o en "fotos" (acepta .jpg, .JPG, .png...)
 const ORIG_F=[[BASE,'fotos'],['',''],['','Mi wey'],['','fotos']];
