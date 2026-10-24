@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05070d">
+<meta name="description" content="Una cartita para Mi Wey">
+<title>Para Mi Wey 🫂</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070d;--card:#0d1019;--line:#1b2030;--txt:#f1f3fa;--mut:#7d8296;--g1:#f0799e;--g2:#a2a8f5}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Outfit',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;min-height:100vh;
+background-image:radial-gradient(circle at 20% 0%,rgba(240,121,158,.12),transparent 45%),radial-gradient(circle at 90% 40%,rgba(162,168,245,.10),transparent 45%)}
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.fl{position:absolute;bottom:-60px;opacity:0;animation:up linear forwards;will-change:transform}
+@keyframes up{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.85}90%{opacity:.6}100%{transform:translateY(-115vh) rotate(var(--r));opacity:0}}
+
+/* intro */
+#intro{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;padding:24px;transition:opacity .9s,visibility .9s}
+#intro.off{opacity:0;visibility:hidden}
+#intro p{color:var(--mut);font-weight:300;letter-spacing:.04em}
+#intro h2{font-size:clamp(1.6rem,6vw,2.2rem);font-weight:600}
+#open{border:0;cursor:pointer;width:112px;height:112px;border-radius:50%;font-size:3rem;background:linear-gradient(160deg,var(--g1),var(--g2));box-shadow:0 0 50px rgba(240,121,158,.45);animation:beat 1.4s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.08)}}
+
+main{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:max(48px,env(safe-area-inset-top)) 22px 80px}
+header{text-align:center;padding:34px 0 18px}
+.hug{font-size:3.4rem;display:inline-block;animation:hug 2.6s ease-in-out infinite}
+@keyframes hug{0%,100%{transform:scale(1) rotate(-6deg)}50%{transform:scale(1.18) rotate(6deg)}}
+h1{font-size:clamp(2rem,9vw,3.1rem);line-height:1.15;font-weight:700;margin:10px 0 6px;background:linear-gradient(120deg,var(--g1),var(--g2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);font-weight:300;letter-spacing:.08em}
+
+.letter{margin-top:26px;background:rgba(13,16,25,.7);border:1px solid var(--line);border-radius:28px;padding:30px 24px;backdrop-filter:blur(6px)}
+.letter p{margin-bottom:18px;font-weight:300;font-size:1.05rem;color:#dfe2ee}
+.letter p:first-child{font-weight:600;font-size:1.35rem;color:var(--txt)}
+.sign{text-align:right;font-weight:600!important;color:var(--g1)!important;margin:6px 0 0!important}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.rv.in{opacity:1;transform:none}
+
+/* player */
+.player{margin:28px 0;display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:30px;padding:16px 18px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.cover{flex:0 0 64px;height:64px;border-radius:16px;background:#111522;border:1px solid var(--line);display:grid;place-items:center;font-size:1.6rem;color:var(--mut)}
+.info{flex:1;min-width:0}
+.t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.a{color:var(--mut);font-size:.92rem}
+.bar{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:.78rem;color:var(--mut)}
+.trk{flex:1;height:5px;border-radius:5px;background:#232838;cursor:pointer;position:relative}
+.fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:5px;background:linear-gradient(90deg,var(--g1),var(--g2))}
+.ctl{display:flex;align-items:center;gap:10px}
+.ctl button{border:0;background:none;color:var(--txt);cursor:pointer;font-size:1.1rem;padding:6px}
+#pp{width:54px;height:54px;border-radius:50%;background:linear-gradient(160deg,var(--g1),var(--g2));color:#10121c;font-size:1.15rem;box-shadow:0 0 26px rgba(240,121,158,.4)}
+@media(max-width:520px){.player{flex-wrap:wrap;padding:16px}.cover{flex-basis:52px;height:52px}.ctl{width:100%;justify-content:center}}
+
+/* gallery */
+h2.g{text-align:center;font-weight:600;margin:46px 0 18px;font-size:1.5rem}
+.gal{columns:2;column-gap:14px}
+.gal figure{break-inside:avoid;margin-bottom:14px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.gal img{width:100%;display:block;transition:transform .6s}
+.gal figure:hover img{transform:scale(1.04)}
+.hint{text-align:center;color:var(--mut);font-weight:300;font-size:.85rem;margin:-8px 0 18px}
+.gal figure{cursor:zoom-in}
+#lb{position:fixed;inset:0;z-index:60;background:rgba(5,7,13,.96);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+#lb.on{opacity:1;visibility:visible}
+#lb img{max-width:92vw;max-height:84vh;border-radius:20px;border:1px solid var(--line);box-shadow:0 0 60px rgba(240,121,158,.25);transition:opacity .25s}
+#lb button{position:absolute;border:0;cursor:pointer;color:var(--txt);background:rgba(255,255,255,.08);border-radius:50%;width:46px;height:46px;font-size:1.2rem}
+#lbx{top:max(18px,env(safe-area-inset-top));right:18px}
+#lbp{left:12px;top:50%;margin-top:-23px}
+#lbn{right:12px;top:50%;margin-top:-23px}
+#lbc{position:absolute;bottom:max(20px,env(safe-area-inset-bottom));color:var(--mut);font-size:.85rem}
+.end{text-align:center;margin-top:46px;color:var(--mut);font-weight:300}
+.end span{display:block;font-size:2rem;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div id="fx"></div>
+
+<div id="intro">
+  <p>Hay algo especial para ti</p>
+  <h2>Toca para abrirlo, Mi Wey</h2>
+  <button id="open" aria-label="Abrir">💌</button>
+</div>
+
+<main>
+  <header>
+    <div class="hug">🫂</div>
+    <h1>¡Feliz Cumpleaños,<br>Nemesis!</h1>
+    <div class="sub">para Mi Wey ♥</div>
+  </header>
+
+  <section class="letter">
+    <p class="rv">¡Feliz Cumpleaños!</p>
+    <p class="rv">Hoy es un día súper especial, y no podía dejar pasar la oportunidad de prepararte algo diferente, algo que te recordara lo mucho que significas para mí. ¡Feliz vuelta al sol, mi niña bonita!</p>
+    <p class="rv">A veces me cuesta encontrar las palabras exactas para expresar todo lo que siento por ti, pero quiero que sepas que me siento increíblemente afortunado de tenerte en mi vida. Tienes una luz preciosa que ilumina a todos los que te rodean, y una forma de ser que sorprendería a cualquiera.</p>
+    <p class="rv">En este nuevo año de vida que comienzas, te deseo toda la felicidad del mundo. Quiero verte cumplir tus metas, quiero verte reír hasta que te duela la barriga, y sobre todo, quiero seguir estando ahí para celebrarlo contigo (aunque de momento sea a través de una pantalla), apoyándote en cada paso.</p>
+    <p class="rv">Espero que este pequeño detalle te haga sonreír. Eres el mejor regalo que me ha dado la vida, y hoy me toca celebrar que tú existes. Que este día esté lleno de magia, de amor y de cositas bonitas, tal como tú te lo mereces.</p>
+    <p class="rv">Te adoro con todo mi corazón. Pásala hermoso.</p>
+    <p class="rv sign">con mucho amor, Maik ❤️</p>
+  </section>
+
+  <div class="player rv">
+    <div class="cover">♫</div>
+    <div class="info">
+      <div class="t">Best Friend</div>
+      <div class="a">Rex Orange County</div>
+      <div class="bar"><span id="cur">0:00</span><div class="trk" id="trk"><div class="fill" id="fill"></div></div><span id="dur">--:--</span></div>
+    </div>
+    <div class="ctl">
+      <button id="prev" aria-label="Reiniciar">⏮</button>
+      <button id="pp" aria-label="Reproducir o pausar">▶</button>
+      <button id="next" aria-label="Reiniciar">⏭</button>
+    </div>
+  </div>
+
+  <p id="msg" class="hint" style="color:#f0799e"></p>
+  <h2 class="g rv">Mi niña bonita 📸</h2>
+  <p class="hint rv">toca una foto para verla grande</p>
+  <div class="gal">
+    <figure class="rv"><img data-n="1" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="2" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="3" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="4" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="5" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="6" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="7" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="8" alt="Nemesis" loading="lazy"></figure>
+    <figure class="rv"><img data-n="9" alt="Nemesis" loading="lazy"></figure>
+  </div>
+
+  <div class="end rv"><span>🫂</span>Te quiero mucho, Mi Wey ♥</div>
+  <div id="lb"><button id="lbx" aria-label="Cerrar">✕</button><button id="lbp" aria-label="Anterior">‹</button><img id="lbi" alt=""><button id="lbn" aria-label="Siguiente">›</button><div id="lbc"></div></div>
+  <audio id="au" preload="auto" loop></audio>
+</main>
+
+<script>
+const au=document.getElementById('au'),pp=document.getElementById('pp'),$=id=>document.getElementById(id);
+const fmt=s=>isFinite(s)?Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'):'--:--';
+
+// emojis flotantes
+const set=['❤️','💗','💖','💕','🫂','♥','💞'];
+function spawn(){
+  const e=document.createElement('span');e.className='fl';
+  e.textContent=set[Math.floor(Math.random()*set.length)];
+  e.style.left=Math.random()*100+'vw';
+  e.style.fontSize=(14+Math.random()*26)+'px';
+  e.style.setProperty('--r',(Math.random()*80-40)+'deg');
+  e.style.animationDuration=(7+Math.random()*7)+'s';
+  $('fx').appendChild(e);setTimeout(()=>e.remove(),15000);
+}
+setInterval(spawn,550);for(let i=0;i<6;i++)setTimeout(spawn,i*250);
+
+// aparición al hacer scroll
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i<8?i*.12:0)+'s';io.observe(el)});
+
+// canción: busca el archivo en estas carpetas / nombres / formatos
+const CARPETAS=['musica','Mi wey','.'];
+const NOMBRES=['Rex Orange County - Best Friend (Official Audio)','Rex Orange County - Best Friend','Best Friend','best-friend'];
+const EXTS=['mp3','m4a','wav','ogg','MP3'];
+const cand=[];CARPETAS.forEach(c=>NOMBRES.forEach(n=>EXTS.forEach(e=>cand.push(encodeURI((c==='.'?'':c+'/')+n+'.'+e)))));
+let ci=0,want=false;
+const testing=['','localhost','127.0.0.1'].includes(location.hostname);
+function nextSrc(){
+  if(ci>=cand.length){
+    $('dur').textContent='--:--';
+    if(testing)$('msg').textContent='No encuentro la canción. Ponla en la carpeta "musica" con este nombre: Rex Orange County - Best Friend (Official Audio).mp3';
+    return;
+  }
+  au.src=cand[ci++];au.load();
+}
+au.addEventListener('error',nextSrc);
+au.addEventListener('canplay',()=>{if(want&&au.paused)play()});
+nextSrc();
+
+// música
+function ui(){pp.textContent=au.paused?'▶':'⏸'}
+function play(){au.play().then(ui).catch(ui)}
+au.addEventListener('loadedmetadata',()=>$('dur').textContent=fmt(au.duration));
+au.addEventListener('timeupdate',()=>{$('cur').textContent=fmt(au.currentTime);$('fill').style.width=(au.currentTime/au.duration*100||0)+'%'});
+au.addEventListener('play',ui);au.addEventListener('pause',ui);
+pp.onclick=()=>au.paused?play():au.pause();
+$('prev').onclick=$('next').onclick=()=>{au.currentTime=0;play()};
+$('trk').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();au.currentTime=(e.clientX-r.left)/r.width*au.duration};
+
+// intro: el toque inicial desbloquea el audio en el navegador
+$('open').onclick=()=>{want=true;play();$('intro').classList.add('off')};
+
+// fotos: carpeta "Mi wey" con foto1 ... foto9 (acepta .jpg, .JPG, .jpeg, .png)
+const CARPETA='Mi wey',EXT=['jpg','JPG','jpeg','JPEG','png','PNG','webp'];
+document.querySelectorAll('.gal img').forEach(im=>{let k=0;const next=()=>{if(k<EXT.length)im.src=encodeURI(CARPETA+'/foto'+im.dataset.n+'.'+EXT[k++])};im.onerror=next;next()});
+
+// visor de fotos
+const figs=[...document.querySelectorAll('.gal img')],lb=$('lb'),lbi=$('lbi');let cur=0;
+function show(i){cur=(i+figs.length)%figs.length;lbi.style.opacity=0;setTimeout(()=>{lbi.src=figs[cur].src;lbi.style.opacity=1},150);$('lbc').textContent=(cur+1)+' / '+figs.length}
+figs.forEach((im,i)=>im.parentElement.onclick=()=>{show(i);lb.classList.add('on')});
+$('lbx').onclick=()=>lb.classList.remove('on');
+$('lbp').onclick=e=>{e.stopPropagation();show(cur-1)};
+$('lbn').onclick=e=>{e.stopPropagation();show(cur+1)};
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove('on')};
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)});
+let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+lb.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(cur+(d<0?1:-1))});
+</script>
+</body>
+</html>
